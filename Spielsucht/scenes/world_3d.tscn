@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dpsvj8a78w7n7"]
+[gd_scene load_steps=13 format=3 uid="uid://dpsvj8a78w7n7"]
 
 [ext_resource type="Environment" path="res://default_env.tres" id="1_abcde"]
 [ext_resource type="PackedScene" uid="uid://b1x2y3z4a5b6" path="res://scenes/player.tscn" id="2_fghij"]
@@ -20,6 +20,18 @@ size = Vector3(2, 0.1, 1.5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pqrst"]
 size = Vector3(3, 2, 2.5)
+
+[sub_resource type="BoxMesh" id="WallMeshNS_12345"]
+size = Vector3(20, 3, 0.5)
+
+[sub_resource type="BoxShape3D" id="WallShapeNS_67890"]
+size = Vector3(20, 3, 0.5)
+
+[sub_resource type="BoxMesh" id="WallMeshEW_abcde"]
+size = Vector3(0.5, 3, 20)
+
+[sub_resource type="BoxShape3D" id="WallShapeEW_fghij"]
+size = Vector3(0.5, 3, 20)
 
 
 [node name="World3D" type="Node3D"]
@@ -56,6 +68,36 @@ shape = SubResource("BoxShape3D_pqrst")
 [node name="BlackjackUI" parent="." instance=ExtResource("3_klmno")]
 visible = false
 
-[connection signal="body_entered" from="BlackjackTable/InteractionArea" to="Player" method="_on_interaction_area_body_entered"]
+[node name="Walls" type="Node3D" parent="."]
 
+[node name="NorthWall" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -10)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/NorthWall"]
+mesh = SubResource("WallMeshNS_12345")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/NorthWall"]
+shape = SubResource("WallShapeNS_67890")
+
+[node name="SouthWall" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 10)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/SouthWall"]
+mesh = SubResource("WallMeshNS_12345")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/SouthWall"]
+shape = SubResource("WallShapeNS_67890")
+
+[node name="EastWall" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 1.5, 0)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/EastWall"]
+mesh = SubResource("WallMeshEW_abcde")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/EastWall"]
+shape = SubResource("WallShapeEW_fghij")
+
+[node name="WestWall" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 1.5, 0)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/WestWall"]
+mesh = SubResource("WallMeshEW_abcde")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WestWall"]
+shape = SubResource("WallShapeEW_fghij")
+
+
+[connection signal="body_entered" from="BlackjackTable/InteractionArea" to="Player" method="_on_interaction_area_body_entered"]
 [connection signal="game_exited" from="BlackjackUI" to="Player" method="_on_blackjack_game_exited"]
