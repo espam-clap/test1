@@ -4,16 +4,13 @@ extends CharacterBody3D
 @export var jump_velocity = 4.5
 @export var mouse_sensitivity = 0.002
 
-var blackjack_ui: Control
+@export var blackjack_ui: Control
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _ready():
     Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-    # Find the UI node when the player is ready.
-    # This assumes the scene structure is /root/World3D/BlackjackUI
-    blackjack_ui = get_node("/root/World3D/BlackjackUI")
 
 
 func _unhandled_input(event):
