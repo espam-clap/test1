@@ -1,0 +1,61 @@
+[gd_scene load_steps=9 format=3 uid="uid://dpsvj8a78w7n7"]
+
+[ext_resource type="Environment" path="res://default_env.tres" id="1_abcde"]
+[ext_resource type="PackedScene" uid="uid://b1x2y3z4a5b6" path="res://scenes/player.tscn" id="2_fghij"]
+[ext_resource type="PackedScene" uid="uid://c7xqy8f6w5e4g" path="res://scenes/blackjack.tscn" id="3_klmno"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_klmno"]
+size = Vector2(20, 20)
+
+[sub_resource type="BoxMesh" id="BoxMesh_abcde"]
+size = Vector3(2, 0.1, 1.5)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_fghij"]
+top_radius = 0.5
+bottom_radius = 0.5
+height = 0.75
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_klmno"]
+size = Vector3(2, 0.1, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pqrst"]
+size = Vector3(3, 2, 2.5)
+
+
+[node name="World3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("1_abcde")
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_klmno")
+
+[node name="Player" parent="." instance=ExtResource("2_fghij")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="BlackjackTable" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+
+[node name="TableTop" type="MeshInstance3D" parent="BlackjackTable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+mesh = SubResource("BoxMesh_abcde")
+
+[node name="TableBase" type="MeshInstance3D" parent="BlackjackTable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.375, 0)
+mesh = SubResource("CylinderMesh_fghij")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BlackjackTable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+shape = SubResource("BoxShape3D_klmno")
+
+[node name="InteractionArea" type="Area3D" parent="BlackjackTable"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BlackjackTable/InteractionArea"]
+shape = SubResource("BoxShape3D_pqrst")
+
+[node name="BlackjackUI" parent="." instance=ExtResource("3_klmno")]
+visible = false
+
+[connection signal="body_entered" from="BlackjackTable/InteractionArea" to="Player" method="_on_interaction_area_body_entered"]
+
+[connection signal="game_exited" from="BlackjackUI" to="Player" method="_on_blackjack_game_exited"]
