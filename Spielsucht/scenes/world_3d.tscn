@@ -103,6 +103,14 @@ horizontal_alignment = 1
 vertical_alignment = 1
 visible = false
 
+[node name="DebugLabel" type="Label" parent="."]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 450.0
+offset_bottom = 120.0
+text = "Debug Info:"
+autowrap_mode = 3
+
 [node name="Walls" type="Node3D" parent="."]
 
 [node name="NorthWall" type="StaticBody3D" parent="Walls"]
