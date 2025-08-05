@@ -86,6 +86,23 @@ shape = SubResource("BoxShape3D_pqrst")
 [node name="BlackjackUI" parent="." instance=ExtResource("3_klmno")]
 visible = false
 
+[node name="InteractionPrompt" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = 50.0
+offset_right = 150.0
+offset_bottom = 73.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Press E to Play Blackjack"
+horizontal_alignment = 1
+vertical_alignment = 1
+visible = false
+
 [node name="Walls" type="Node3D" parent="."]
 
 [node name="NorthWall" type="StaticBody3D" parent="Walls"]
@@ -123,3 +140,5 @@ shape = SubResource("WallShapeEW_fghij")
 
 [connection signal="body_entered" from="BlackjackTable/InteractionArea" to="Player" method="_on_interaction_area_body_entered"]
 [connection signal="game_exited" from="BlackjackUI" to="Player" method="_on_blackjack_game_exited"]
+
+[connection signal="body_exited" from="BlackjackTable/InteractionArea" to="Player" method="_on_interaction_area_body_exited"]
